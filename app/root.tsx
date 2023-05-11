@@ -1,4 +1,3 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -9,17 +8,19 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-
-import { getUser } from "~/session.server";
-import stylesheet from "~/tailwind.css";
+import stylesheet from "~/styles/app.css";
+import { AuthProvider } from "./lib/auth.server";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
-  return json({ user: await getUser(request) });
+  const auth = new AuthProvider(request);
+
+  const user = await auth.user();
+
+  return json({ user });
 };
 
 export default function App() {

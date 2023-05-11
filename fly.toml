@@ -1,4 +1,4 @@
-app = "remix-klezmer-stack-3483"
+app = "remix-klezmer-stack"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = [ ]
